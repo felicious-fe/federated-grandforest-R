@@ -286,13 +286,15 @@ predict.grandforest.forest <- function(
   alpha <- 0
   minprop <- 0
   case.weights <- c(0, 0)
+  predict.all <- FALSE
   use.case.weights <- FALSE
   keep.inbag <- FALSE
   sample.fraction <- 1
   holdout <- FALSE
+  prediction.type <- 1
   num.random.splits <- 1
   random.root <- FALSE
-  
+
   ## Use sparse matrix
   if ("dgCMatrix" %in% class(data.final)) {
     sparse.data <- data.final

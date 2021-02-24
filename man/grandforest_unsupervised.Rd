@@ -4,8 +4,13 @@
 \alias{grandforest_unsupervised}
 \title{Train unsupervised Grand Forest model.}
 \usage{
-grandforest_unsupervised(data, graph_data, replace = TRUE,
-  importance = "impurity", ...)
+grandforest_unsupervised(
+  data,
+  graph_data,
+  replace = TRUE,
+  importance = "impurity",
+  ...
+)
 }
 \arguments{
 \item{data}{Training data of class \code{data.frame}, \code{matrix} or \code{gwaa.data} (GenABEL).}

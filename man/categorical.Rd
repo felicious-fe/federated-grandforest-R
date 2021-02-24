@@ -4,7 +4,9 @@
 \name{categorical}
 \alias{categorical}
 \title{Synthetic example data set for classification model.}
-\format{A data frame with 100 rows and 21 columns.}
+\format{
+A data frame with 100 rows and 21 columns.
+}
 \usage{
 categorical
 }

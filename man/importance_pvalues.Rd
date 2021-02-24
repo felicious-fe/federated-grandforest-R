@@ -4,8 +4,14 @@
 \alias{importance_pvalues}
 \title{Grand Forest variable importance p-values}
 \usage{
-importance_pvalues(x, method = c("janitza", "altmann"),
-  num.permutations = 100, formula = NULL, data = NULL, ...)
+importance_pvalues(
+  x,
+  method = c("janitza", "altmann"),
+  num.permutations = 100,
+  formula = NULL,
+  data = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{grandforest or holdoutRF object.}

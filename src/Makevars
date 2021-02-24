@@ -1,4 +1,4 @@
-## Use c++11
-CXX_STD = CXX11
+## Use c++20
+CXX_STD = CXX20
 PKG_CPPFLAGS = -DR_BUILD
 

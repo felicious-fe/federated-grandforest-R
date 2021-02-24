@@ -1,8 +1,12 @@
 .Rproj.user
 .Rcheck
+.RData
 .Rhistory
 ranger.Rcheck/
 *.Rproj
 .project
 .cproject
 inst/doc
+.idea
+cmake-build-debug
+CMakeLists.txt

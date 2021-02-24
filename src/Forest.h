@@ -157,6 +157,14 @@ public:
     return result;
   }
 
+    const std::vector<Tree *> &getTrees() const;
+
+    void addTrees(const std::vector<Tree *> &trees);
+
+    void computePermutationImportance();
+
+    void computeVariableFrequency();
+
 protected:
   void grow();
   virtual void growInternal() = 0;
@@ -168,11 +176,7 @@ protected:
   void computePredictionError();
   virtual void computePredictionErrorInternal() = 0;
 
-  void computePermutationImportance();
-  
-  void computeVariableFrequency();
-
-  // Multithreading methods for growing/prediction/importance, called by each thread
+    // Multithreading methods for growing/prediction/importance, called by each thread
   void growTreesInThread(uint thread_idx, std::vector<double>* variable_importance);
   void predictTreesInThread(uint thread_idx, const Data* prediction_data, bool oob_prediction);
   void computeTreePermutationImportanceInThread(uint thread_idx, std::vector<double>* importance, std::vector<double>* variance);
