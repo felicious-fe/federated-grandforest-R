@@ -4,18 +4,39 @@
 \alias{grandforest}
 \title{Grand Forest}
 \usage{
-grandforest(formula = NULL, data = NULL, graph_data = NULL,
-  num.trees = 500, mtry = NULL, importance = "impurity",
-  subgraph = "bfs", write.forest = TRUE, probability = FALSE,
-  min.node.size = NULL, replace = TRUE, sample.fraction = ifelse(replace,
-  1, 0.632), case.weights = NULL, splitrule = NULL, num.random.splits = 1,
-  random.root = FALSE, alpha = 0.5, minprop = 0.1,
-  split.select.weights = NULL, always.split.variables = NULL,
-  respect.unordered.factors = NULL, scale.permutation.importance = FALSE,
-  keep.inbag = FALSE, holdout = FALSE, num.threads = NULL,
-  save.memory = FALSE, verbose = TRUE, seed = NULL,
-  dependent.variable.name = NULL, status.variable.name = NULL,
-  classification = NULL)
+grandforest(
+  formula = NULL,
+  data = NULL,
+  graph_data = NULL,
+  num.trees = 500,
+  mtry = NULL,
+  importance = "impurity",
+  subgraph = "bfs",
+  write.forest = TRUE,
+  probability = FALSE,
+  min.node.size = NULL,
+  replace = TRUE,
+  sample.fraction = ifelse(replace, 1, 0.632),
+  case.weights = NULL,
+  splitrule = NULL,
+  num.random.splits = 1,
+  random.root = FALSE,
+  alpha = 0.5,
+  minprop = 0.1,
+  split.select.weights = NULL,
+  always.split.variables = NULL,
+  respect.unordered.factors = NULL,
+  scale.permutation.importance = FALSE,
+  keep.inbag = FALSE,
+  holdout = FALSE,
+  num.threads = NULL,
+  save.memory = FALSE,
+  verbose = TRUE,
+  seed = NULL,
+  dependent.variable.name = NULL,
+  status.variable.name = NULL,
+  classification = NULL
+)
 }
 \arguments{
 \item{formula}{Object of class \code{formula} or \code{character} describing the model to fit. Interaction terms supported only for numerical variables.}

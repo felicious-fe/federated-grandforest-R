@@ -4,7 +4,9 @@
 \name{network}
 \alias{network}
 \title{Small 20-gene example network}
-\format{A data frame with 100 rows and 2 columns.}
+\format{
+A data frame with 100 rows and 2 columns.
+}
 \usage{
 network
 }

@@ -42,6 +42,7 @@
 #ifndef OLD_WIN_R_BUILD
 #include <thread>
 #include <chrono>
+#include <Rcpp.h>
 #endif
 
 #include "utility.h"
@@ -60,9 +61,11 @@ Forest::Forest() :
 { }
 
 Forest::~Forest() {
-  for (auto& tree : trees) {
-    delete tree;
-  }
+    if( !trees.empty() ) {
+        for (auto &tree : trees) {
+            delete tree;
+        }
+    }
 }
 
 // #nocov start
@@ -221,6 +224,7 @@ void Forest::init(
   // Initialize data with memmode
   this->data = input_data;
   this->graph = graph_data;
+  this->verbose_out = verbose_out;
 
   // Initialize random number generator and set seed
   if (seed == 0) {
@@ -263,42 +267,44 @@ void Forest::init(
   this->num_random_splits = num_random_splits;
   this->random_root = random_root;
 
-  // Set number of samples and variables
-  num_samples = data->getNumRows();
-  num_variables = data->getNumCols();
+  if (data) {
+      // Set number of samples and variables
+      num_samples = data->getNumRows();
+      num_variables = data->getNumCols();
 
-  // Convert dependent variable name to ID
-  if (!prediction_mode && !dependent_variable_name.empty()) {
-    dependent_varID = data->getVariableID(dependent_variable_name);
-  }
+      // Convert dependent variable name to ID
+      if (!prediction_mode && !dependent_variable_name.empty()) {
+          dependent_varID = data->getVariableID(dependent_variable_name);
+      }
 
-  // Set unordered factor variables
-  if (!prediction_mode) {
-    data->setIsOrderedVariable(unordered_variable_names);
-  }
+      // Set unordered factor variables
+      if (!prediction_mode) {
+          data->setIsOrderedVariable(unordered_variable_names);
+      }
 
-  data->addNoSplitVariable(dependent_varID);
+      data->addNoSplitVariable(dependent_varID);
 
-  initInternal(status_variable_name);
+      initInternal(status_variable_name);
 
-  num_independent_variables = num_variables - data->getNoSplitVariables().size();
+      num_independent_variables = num_variables - data->getNoSplitVariables().size();
 
-  // Init split select weights
-  split_select_weights.push_back(std::vector<double>());
+      // Init split select weights
+      split_select_weights.push_back(std::vector<double>());
 
-  // Check if mtry is in valid range
-  if (this->mtry > num_variables - 1) {
-    throw std::runtime_error("mtry can not be larger than number of variables in data.");
-  }
+      // Check if mtry is in valid range
+      if (this->mtry > num_variables - 1) {
+          throw std::runtime_error("mtry can not be larger than number of variables in data.");
+      }
 
-  // Check if any observations samples
-  if ((size_t) num_samples * sample_fraction < 1) {
-    throw std::runtime_error("sample_fraction too small, no observations sampled.");
-  }
+      // Check if any observations samples
+      if ((size_t) num_samples * sample_fraction < 1) {
+          throw std::runtime_error("sample_fraction too small, no observations sampled.");
+      }
 
-  // Permute samples for corrected Gini importance
-  if (importance_mode == IMP_GINI_CORRECTED) {
-    data->permuteSampleIDs(random_number_generator);
+      // Permute samples for corrected Gini importance
+      if (importance_mode == IMP_GINI_CORRECTED) {
+          data->permuteSampleIDs(random_number_generator);
+      }
   }
 
 }
@@ -644,6 +650,7 @@ void Forest::computePermutationImportance() {
   for (auto &thread : threads) {
     thread.join();
   }
+  Rcpp::Rcout << "JOINED IMP THREADS" << std::endl;
 
 #ifdef R_BUILD
   if (aborted_threads > 0) {
@@ -933,3 +940,12 @@ void Forest::showProgress(std::string operation) {
   }
 }
 #endif
+
+const std::vector<Tree *> &Forest::getTrees() const {
+    return trees;
+}
+
+void Forest::addTrees(const std::vector<Tree *> &trees_to_add) {
+    trees.insert(trees.end(), trees_to_add.begin(), trees_to_add.end());
+    num_trees = trees.size();
+}

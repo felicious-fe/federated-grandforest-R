@@ -4,9 +4,17 @@
 \alias{predict.grandforest}
 \title{Grand Forest prediction}
 \usage{
-\method{predict}{grandforest}(object, data, predict.all = FALSE,
-  num.trees = object$num.trees, type = "response", seed = NULL,
-  num.threads = NULL, verbose = TRUE, ...)
+\method{predict}{grandforest}(
+  object,
+  data,
+  predict.all = FALSE,
+  num.trees = object$num.trees,
+  type = "response",
+  seed = NULL,
+  num.threads = NULL,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{Grand Forest \code{grandforest} object.}

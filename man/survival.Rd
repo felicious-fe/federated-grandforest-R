@@ -4,7 +4,9 @@
 \name{survival}
 \alias{survival}
 \title{Synthetic example data set for survival model.}
-\format{A data frame with 100 rows and 22 columns.}
+\format{
+A data frame with 100 rows and 22 columns.
+}
 \usage{
 survival
 }
