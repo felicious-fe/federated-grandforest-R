@@ -466,14 +466,14 @@ Rcpp::List grandforest_sum_modelsCpp(Rcpp::List rmodel1, Rcpp::List rmodel2,
                                                         class_values2, terminal_class_counts2, is_ordered2);
         }
 
-        Rcpp::Rcout << "CREATED FOREST OBJECTS" << std::endl;
+        *verbose_out << "CREATED FOREST OBJECTS" << std::endl;
 
         // Sum forests
         std::vector<Tree *> forest2_trees = forest2->getTrees();
         forest1->addTrees(forest2_trees);
         forest1->computeVariableFrequency();
 
-        Rcpp::Rcout << "COMBINED TREE SETS" << std::endl;
+        *verbose_out << "COMBINED TREE SETS" << std::endl;
 
         // combine variable importances
         std::map<std::string, double> combined_variable_importance_map;
@@ -484,10 +484,10 @@ Rcpp::List grandforest_sum_modelsCpp(Rcpp::List rmodel1, Rcpp::List rmodel2,
 
         std::vector<int>::iterator it, ls;
 
-        for (const auto name : combined_variable_names) {
-            Rcpp::Rcout << name << ";";
-        }
-        Rcpp::Rcout << std::endl;
+        //for (const auto name : combined_variable_names) {
+        //    Rcpp::Rcout << name << ";";
+        //}
+        //Rcpp::Rcout << std::endl;
 
         size_t max_importance = 0;
         for (const auto& name : combined_variable_names) {
@@ -527,7 +527,7 @@ Rcpp::List grandforest_sum_modelsCpp(Rcpp::List rmodel1, Rcpp::List rmodel2,
 
         combined_variable_importance.names() = combined_variable_names_rcpp;
 
-        Rcpp::Rcout << "SUMMED FOREST OBJECTS" << std::endl;
+        *verbose_out << "SUMMED FOREST OBJECTS" << std::endl;
 
         // Return output
         result.push_back(forest1->getNumTrees(), "num.trees");
@@ -576,7 +576,7 @@ Rcpp::List grandforest_sum_modelsCpp(Rcpp::List rmodel1, Rcpp::List rmodel2,
         }
         result.push_back(forest_object, "forest");
 
-        Rcpp::Rcout << "CLEANING UP..." << std::endl;
+        *verbose_out << "CLEANING UP..." << std::endl;
 
         delete forest1;
         // Forest 2 does not need to be deleted, the destructor of Forest 1 already deletes the Trees
