@@ -192,9 +192,27 @@ grandforest_sum_models <- function(model1, model2, keep.inbag = FALSE, probabili
   }
 
   ## Prepare results
-  # TODO This could be risky if the two datasets don't have the same variables
   if (importance.mode != 0) {
-    #names(combined_model$variable.importance) <- model1$forest$independent.variable.names
+    combined.independent.variable.names <- unique(c(model1$forest$independent.variable.names, model2$forest$independent.variable.names))
+    combined.variable.importance <- as.list(
+                                      setNames(
+                                        mapply(
+                                          function(x1,x2) {
+                                            if(length(x1)==0){x1=0}
+                                            if(length(x2)==0){x2=0}
+                                            return(x1*x1samples + x2*x2samples)
+                                          },
+                                          model1$variable.importance[keys],
+                                          model2$variable.importance[keys],
+                                          x1samples=model1$num.samples,
+                                          x2samples=model2$num.samples
+                                        ),
+                                        combined.independent.variable.names
+                                      )
+                                    )
+    relative.combined.variable.importance <- as.list(as.numeric(combined.variable.importance)/sum(as.numeric(combined.variable.importance)))
+    names(relative.combined.variable.importance) <- names(combined.variable.importance)
+    combined_model$variable.importance <- relative.combined.variable.importance
   }
   if(length(combined_model$variable.frequency) > 0) {
     #names(combined_model$variable.frequency) <- model1$forest$independent.variable.names
