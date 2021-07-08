@@ -194,22 +194,21 @@ grandforest_sum_models <- function(model1, model2, keep.inbag = FALSE, probabili
   ## Prepare results
   if (importance.mode != 0) {
     combined.independent.variable.names <- unique(c(model1$forest$independent.variable.names, model2$forest$independent.variable.names))
-    combined.variable.importance <- setNames(
-                                      mapply(
-                                        function(x1,x2,x1samples,x2samples) {
-                                          if(length(x1)==0){x1=0}
-                                          if(length(x2)==0){x2=0}
-                                          return(x1*x1samples + x2*x2samples)
-                                        },
-                                        model1$variable.importance[combined.independent.variable.names],
-                                        model2$variable.importance[combined.independent.variable.names],
-                                        x1samples=model1$num.samples,
-                                        x2samples=model2$num.samples
-                                      ),
-                                      combined.independent.variable.names
-                                    )
-    relative.combined.variable.importance <- as.list(as.numeric(combined.variable.importance)/sum(as.numeric(combined.variable.importance)))
-    names(relative.combined.variable.importance) <- names(combined.variable.importance)
+    combined.variable.importance <- mapply(
+      function(x1,x2,x1samples,x2samples) {
+        weighted.mean(c(x1,x2),c(x1samples,x2samples))
+      },
+      model1$variable.importance[combined.independent.variable.names],
+      model2$variable.importance[combined.independent.variable.names],
+      x1samples=model1$num.samples,
+      x2samples=model2$num.samples
+    )
+
+    relative.combined.variable.importance <- setNames(
+      as.numeric(combined.variable.importance)/sum(as.numeric(combined.variable.importance)),
+      combined.independent.variable.names
+    )
+
     combined_model$variable.importance <- relative.combined.variable.importance
   }
   if(length(combined_model$variable.frequency) > 0) {
