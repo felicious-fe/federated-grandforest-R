@@ -202,8 +202,8 @@ grandforest_sum_models <- function(model1, model2, keep.inbag = FALSE, probabili
                                             if(length(x2)==0){x2=0}
                                             return(x1*x1samples + x2*x2samples)
                                           },
-                                          model1$variable.importance[keys],
-                                          model2$variable.importance[keys],
+                                          model1$variable.importance[combined.independent.variable.names],
+                                          model2$variable.importance[combined.independent.variable.names],
                                           x1samples=model1$num.samples,
                                           x2samples=model2$num.samples
                                         ),
